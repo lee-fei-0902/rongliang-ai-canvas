@@ -531,7 +531,7 @@
             const onCardClick = useCallback((e) => {
                 e.stopPropagation();
                 setExpanded(prev => !prev);
-                setShowTopToolbar(prev => !prev);
+                setShowTopToolbar(false);
             }, []);
 
             const isCompleted = st === 'completed';
