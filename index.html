@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作台 - 容量AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter','Noto Sans SC',sans-serif; }
+        body { background:#f5f5f5; color:#333; }
+
+        .nav-item { color:#666; font-size:14px; cursor:pointer; padding:4px 8px; border-radius:4px; transition:all 0.15s; }
+        .nav-item:hover { color:#333; background:#f0f0f0; }
+        .nav-item.active { color:#2563eb; font-weight:500; }
+
+        .filter-select {
+            appearance:none; background:#fff; border:1px solid #e0e0e0; border-radius:4px;
+            padding:6px 28px 6px 10px; font-size:13px; color:#333; cursor:pointer;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat:no-repeat; background-position:right 8px center;
+        }
+        .filter-select:focus { outline:none; border-color:#2563eb; }
+
+        .search-input {
+            border:1px solid #e0e0e0; border-radius:4px; padding:6px 12px; font-size:13px;
+            width:200px; outline:none; transition:border-color 0.15s;
+        }
+        .search-input:focus { border-color:#2563eb; }
+        .search-input::placeholder { color:#999; }
+
+        .btn-primary {
+            background:#2563eb; color:#fff; border:none; border-radius:4px; padding:6px 16px;
+            font-size:13px; cursor:pointer; transition:background 0.15s;
+        }
+        .btn-primary:hover { background:#1d4ed8; }
+        .btn-default {
+            background:#fff; color:#666; border:1px solid #e0e0e0; border-radius:4px; padding:6px 16px;
+            font-size:13px; cursor:pointer; transition:all 0.15s;
+        }
+        .btn-default:hover { border-color:#ccc; color:#333; }
+
+        .new-project-card {
+            border:1px dashed #d0d0d0; border-radius:8px; width:180px; height:200px;
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            cursor:pointer; transition:all 0.15s; background:#fff;
+        }
+        .new-project-card:hover { border-color:#2563eb; background:#f8faff; }
+
+        .project-card {
+            background:#fff; border-radius:8px; overflow:hidden; cursor:pointer;
+            transition:box-shadow 0.15s; border:1px solid #e8e8e8;
+        }
+        .project-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+
+        .tag-badge {
+            position:absolute; top:8px; right:8px; background:rgba(255,255,255,0.9);
+            border:1px solid #e0e0e0; border-radius:4px; padding:2px 8px; font-size:11px; color:#666;
+            backdrop-filter:blur(4px);
+        }
+
+        .status-badge { color:#2563eb; font-size:12px; }
+
+        .section-title { font-size:15px; font-weight:600; color:#333; margin-bottom:16px; }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div style="background:#fff; border-bottom:1px solid #e8e8e8; height:48px; display:flex; align-items:center; padding:0 24px; position:sticky; top:0; z-index:100;">
+        <div style="display:flex; align-items:center; gap:6px; margin-right:32px;">
+            <div style="width:24px; height:24px; background:linear-gradient(135deg,#2563eb,#4f46e5); border-radius:6px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700;">容</div>
+            <span style="font-size:14px; font-weight:600; color:#333;">容量AI</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; flex:1;">
+            <span class="nav-item active">工作台</span>
+            <span class="nav-item">工具箱</span>
+            <span class="nav-item">音色库</span>
+            <span class="nav-item">视频超分</span>
+            <span class="nav-item">资产库</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px;">
+            <div style="display:flex; align-items:center; gap:4px; color:#666; font-size:13px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                <span>18,998</span>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="cursor:pointer;"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <div style="width:28px; height:28px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; cursor:pointer;">李</div>
+            <span style="font-size:13px; color:#333; cursor:pointer;">我的账号</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding:24px; max-width:1400px; margin:0 auto;">
+        <!-- Project Management Header -->
+        <div class="section-title">项目管理</div>
+
+        <!-- Filter Bar -->
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px; flex-wrap:wrap;">
+            <select class="filter-select">
+                <option>全部制作组</option>
+                <option>素材组</option>
+                <option>技术部</option>
+                <option>抖音运营二组</option>
+            </select>
+            <select class="filter-select">
+                <option>全部创建人</option>
+                <option>王嫣昕</option>
+                <option>李洋</option>
+                <option>瞿靖松</option>
+                <option>郭孟汉</option>
+                <option>张鹏</option>
+                <option>张青</option>
+                <option>刘双0</option>
+            </select>
+            <select class="filter-select">
+                <option>进行中</option>
+                <option>已完成</option>
+                <option>已暂停</option>
+                <option>全部状态</option>
+            </select>
+            <input type="text" class="search-input" placeholder="请输入项目名称">
+            <button class="btn-primary">搜索</button>
+            <button class="btn-default">重置</button>
+        </div>
+
+        <!-- Quick Start -->
+        <div class="section-title">快速开始</div>
+        <div style="display:flex; gap:16px; margin-bottom:32px; flex-wrap:wrap;">
+            <!-- New Project Card -->
+            <div class="new-project-card" onclick="createNewProject()">
+                <div style="width:40px; height:40px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; margin-bottom:12px;">+</div>
+                <div style="font-size:14px; font-weight:500; color:#333; margin-bottom:4px;">新建项目</div>
+                <div style="font-size:12px; color:#999;">从零开始，创建你的AI漫剧项目</div>
+            </div>
+            <!-- Infinite Canvas Entry -->
+            <div class="new-project-card" onclick="openCanvas()" style="border-style:solid; border-color:#e0e0e0;">
+                <div style="width:40px; height:40px; background:linear-gradient(135deg,#4c6ef5,#7950f2); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px; margin-bottom:12px;">🎨</div>
+                <div style="font-size:14px; font-weight:500; color:#333; margin-bottom:4px;">无限画布</div>
+                <div style="font-size:12px; color:#999;">可视化编排创作流程</div>
+            </div>
+        </div>
+
+        <!-- My Projects -->
+        <div class="section-title">我的项目</div>
+        <div id="project-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:16px;">
+            <!-- Projects will be rendered by JS -->
+        </div>
+    </div>
+
+    <script>
+        const projects = [
+            {id:1, title:'测试0710', status:'进行中', dept:'技术部', creator:'瞿靖松', episodes:2, tag:'手动创建', cover:null},
+            {id:2, title:'【竖屏】信息流前贴', status:'进行中', dept:'素材组', creator:'王嫣昕', episodes:1, tag:'手动创建', cover:'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=300&h=200&fit=crop'},
+            {id:3, title:'超然台', status:'进行中', dept:'技术部', creator:'李洋', episodes:5, tag:'批量制作', cover:'https://images.unsplash.com/photo-1545569341-9eb8e3091049?w=300&h=200&fit=crop'},
+            {id:4, title:'【横屏】信息流前贴', status:'进行中', dept:'素材组', creator:'王嫣昕', episodes:1, tag:'手动创建', cover:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop'},
+            {id:5, title:'超然', status:'进行中', dept:'技术部', creator:'李洋', episodes:1, tag:'手动创建', cover:'https://images.unsplash.com/photo-1518173946687-a4c036bc3c95?w=300&h=200&fit=crop'},
+            {id:6, title:'家1', status:'进行中', dept:'技术部', creator:'郭孟汉', episodes:2, tag:'批量制作', cover:null},
+            {id:7, title:'家', status:'进行中', dept:'技术部', creator:'郭孟汉', episodes:2, tag:'批量制作', cover:null},
+            {id:8, title:'项目配置', status:'进行中', dept:'技术部', creator:'李洋', episodes:2, tag:'手动创建', cover:null},
+            {id:9, title:'测试默认模型切换2...', status:'进行中', dept:'技术部', creator:'张鹏', episodes:0, tag:'批量制作', cover:null},
+            {id:10, title:'秋风吹回二零零二', status:'进行中', dept:'技术部', creator:'郭孟汉', episodes:12, tag:'批量制作', cover:'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=300&h=200&fit=crop'},
+            {id:11, title:'1.6.4 测试2', status:'进行中', dept:'技术部', creator:'瞿靖松', episodes:1, tag:'手动创建', cover:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop'},
+            {id:12, title:'Is测试旁白x', status:'进行中', dept:'技术部', creator:'刘双0', episodes:2, tag:'批量制作', cover:'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=200&fit=crop'},
+            {id:13, title:'学姐，这题我会', status:'进行中', dept:'抖音运营二组', creator:'张青', episodes:1, tag:'手动创建', cover:null},
+            {id:14, title:'我在qa生视频', status:'进行中', dept:'技术部', creator:'李洋', episodes:1, tag:'手动创建', cover:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=300&h=200&fit=crop'},
+            {id:15, title:'1.6.4', status:'进行中', dept:'技术部', creator:'瞿靖松', episodes:1, tag:'手动创建', cover:'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&h=200&fit=crop'},
+            {id:16, title:'7.3上线前', status:'进行中', dept:'技术部', creator:'李洋', episodes:1, tag:'批量制作', cover:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=200&fit=crop'},
+        ];
+
+        function renderProjects() {
+            const grid = document.getElementById('project-grid');
+            grid.innerHTML = projects.map(p => `
+                <div class="project-card" onclick="openProject(${p.id})">
+                    <div style="position:relative; width:100%; height:120px; background:${p.cover ? 'url('+p.cover+') center/cover' : '#f0f0f0'}; display:flex; align-items:center; justify-content:center;">
+                        ${!p.cover ? `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>` : ''}
+                        <span class="tag-badge">${p.tag}</span>
+                    </div>
+                    <div style="padding:12px;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                            <span style="font-size:13px; font-weight:500; color:#333; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:120px;" title="${p.title}">${p.title}</span>
+                            <span class="status-badge">${p.status}</span>
+                        </div>
+                        <div style="font-size:11px; color:#999; margin-bottom:4px;">${p.dept} · ${p.creator}</div>
+                        <div style="font-size:11px; color:#999; display:flex; align-items:center; gap:4px;">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            ${p.episodes} 集
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function createNewProject() {
+            alert('新建项目功能开发中...');
+        }
+
+        function openCanvas() {
+            window.location.href = 'canvas.html';
+        }
+
+        function openProject(id) {
+            alert('打开项目 ' + id);
+        }
+
+        renderProjects();
+    </script>
+</body>
+</html>
