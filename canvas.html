@@ -2314,11 +2314,6 @@
 
             const shadow = selected ? '0 0 0 2px '+cfg.color+', 0 0 10px rgba(224,224,224,0.2)' : 'none';
 
-            const onCardClick = useCallback((e) => {
-                e.stopPropagation();
-                setShowComposePage(true);
-            }, []);
-
             const hasVideos = videoSegments.length > 0;
 
             return React.createElement(React.Fragment, null,
@@ -2485,12 +2480,11 @@
                         minHeight:'320px',
                         boxShadow:shadow,
                         transition:'box-shadow 0.2s, border-color 0.2s',
-                        cursor:'pointer',
                         overflow:'hidden',
                         display:'flex',
                         flexDirection:'column',
                     },
-                    onClick:onCardClick,
+                    onClick:undefined,
                 },
                     // Header
                     React.createElement('div', {
@@ -3044,6 +3038,7 @@
                                         [
                                             {type:'character_gen', label:'角色', icon:'👤'},
                                             {type:'scene_gen', label:'场景', icon:'🏞️'},
+                                            {type:'prop_gen', label:'道具', icon:'💎'},
                                             {type:'storyboard_gen', label:'分镜视频', icon:'🎞️'},
                                             {type:'image_gen', label:'图片', icon:'🖼️'},
                                             {type:'text_node', label:'文本', icon:'📜'},
