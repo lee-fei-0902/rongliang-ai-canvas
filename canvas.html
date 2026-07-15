@@ -161,7 +161,6 @@
             const hasOut = cfg.output.length > 0;
             const st = data.status || 'ready';
             const [expanded, setExpanded] = useState(false);
-            const [panelExpanded, setPanelExpanded] = useState(false);
 
             const statusColor = {
                 ready:'rgba(255,255,255,0.10)', queued:'#4c6ef5', running:'#f59f00',
@@ -285,15 +284,7 @@
 
                 // === EXPANDED PANEL ===
                 expanded ? React.createElement('div', {
-                    style: panelExpanded ? {
-                        position:'fixed', inset:'0', zIndex:9999,
-                        background:'#141519',
-                        borderRadius:'0', border:'none',
-                        boxShadow:'none',
-                        padding:'0', overflow:'hidden',
-                        display:'flex', flexDirection:'column',
-                        animation:'fadeIn 0.2s ease-out',
-                    } : {
+                    style: {
                         position:'absolute', top:'calc(100% + 8px)', left:'0',
                         width: isScript ? '480px' : '420px', background:'#1a1b1e',
                         borderRadius:'12px', border:'1px solid rgba(255,255,255,0.08)',
@@ -304,18 +295,11 @@
                     onClick:e=>e.stopPropagation(),
                 },
                     // Header bar
-                    React.createElement('div',{style:panelExpanded?{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid rgba(255,255,255,0.06)',flexShrink:0}:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
-                        React.createElement('span',{style:{fontSize:panelExpanded?'14px':'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label+(panelExpanded?'':'')),
-                        React.createElement('button',{
-                            style:{padding:'6px',borderRadius:'6px',border:'none',background:'transparent',color:'#909296',fontSize:'16px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'28px',height:'28px',transition:'all 0.15s'},
-                            onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
-                            onMouseLeave:e=>e.currentTarget.style.background='transparent',
-                            onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                            title:panelExpanded?'恢复':'放大',
-                        },panelExpanded?'⛶':'↗'),
+                    React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
+                        React.createElement('span',{style:{fontSize:'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label),
                     ),
-                    // Content area (scrollable when expanded)
-                    React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
+                    // Content area
+                    React.createElement('div',{},
                     isScript ? React.createElement('div',null,
                         // Top action buttons (like screenshot)
                         React.createElement('div',{style:{display:'flex',gap:'6px',marginBottom:'14px'}},
@@ -502,7 +486,6 @@
             const cfg = NODE_TYPES_CONFIG.character_gen;
             const st = data.status || 'ready';
             const [expanded, setExpanded] = useState(false);
-            const [panelExpanded, setPanelExpanded] = useState(false);
             const [showImportMenu, setShowImportMenu] = useState(false);
             const [showRefHover, setShowRefHover] = useState(false);
             const [showTopToolbar, setShowTopToolbar] = useState(false);
@@ -797,15 +780,7 @@
 
                 // === EXPANDED EDITING PANEL ===
                 expanded ? React.createElement('div', {
-                    style: panelExpanded ? {
-                        position:'fixed', inset:'0', zIndex:9999,
-                        background:'#141519',
-                        borderRadius:'0', border:'none',
-                        boxShadow:'none',
-                        padding:'0', overflow:'hidden',
-                        display:'flex', flexDirection:'column',
-                        animation:'fadeIn 0.2s ease-out',
-                    } : {
+                    style: {
                         position:'absolute',
                         top:'calc(100% + 12px)',
                         left:'0',
@@ -818,18 +793,11 @@
                     onClick:e=>e.stopPropagation(),
                 },
                     // Header bar
-                    React.createElement('div',{style:panelExpanded?{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid rgba(255,255,255,0.06)',flexShrink:0}:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
-                        React.createElement('span',{style:{fontSize:panelExpanded?'14px':'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label+(panelExpanded?'':'')),
-                        React.createElement('button',{
-                            style:{padding:'6px',borderRadius:'6px',border:'none',background:'transparent',color:'#909296',fontSize:'16px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'28px',height:'28px',transition:'all 0.15s'},
-                            onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
-                            onMouseLeave:e=>e.currentTarget.style.background='transparent',
-                            onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                            title:panelExpanded?'恢复':'放大',
-                        },panelExpanded?'⛶':'↗'),
+                    React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
+                        React.createElement('span',{style:{fontSize:'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label),
                     ),
-                    // Content area (scrollable when expanded)
-                    React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
+                    // Content area
+                    React.createElement('div',{},
                     // Style image upload area (reference StoryboardNode)
                     React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'12px',marginBottom:'16px'}},
                         React.createElement('div',{
@@ -987,7 +955,6 @@
             const cfg = NODE_TYPES_CONFIG[data.nodeType] || NODE_TYPES_CONFIG.scene_gen;
             const st = data.status || 'ready';
             const [expanded, setExpanded] = useState(false);
-            const [panelExpanded, setPanelExpanded] = useState(false);
             const [showImportMenu, setShowImportMenu] = useState(false);
             const [showRefHover, setShowRefHover] = useState(false);
             const [showTopToolbar, setShowTopToolbar] = useState(false);
@@ -1264,15 +1231,7 @@
 
                 // === EXPANDED EDITING PANEL ===
                 expanded ? React.createElement('div', {
-                    style: panelExpanded ? {
-                        position:'fixed', inset:'0', zIndex:9999,
-                        background:'#141519',
-                        borderRadius:'0', border:'none',
-                        boxShadow:'none',
-                        padding:'0', overflow:'hidden',
-                        display:'flex', flexDirection:'column',
-                        animation:'fadeIn 0.2s ease-out',
-                    } : {
+                    style: {
                         position:'absolute',
                         top:'calc(100% + 12px)',
                         left:'0',
@@ -1285,18 +1244,11 @@
                     onClick:e=>e.stopPropagation(),
                 },
                     // Header bar
-                    React.createElement('div',{style:panelExpanded?{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid rgba(255,255,255,0.06)',flexShrink:0}:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
-                        React.createElement('span',{style:{fontSize:panelExpanded?'14px':'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label+(panelExpanded?'':'')),
-                        React.createElement('button',{
-                            style:{padding:'6px',borderRadius:'6px',border:'none',background:'transparent',color:'#909296',fontSize:'16px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'28px',height:'28px',transition:'all 0.15s'},
-                            onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
-                            onMouseLeave:e=>e.currentTarget.style.background='transparent',
-                            onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                            title:panelExpanded?'恢复':'放大',
-                        },panelExpanded?'⛶':'↗'),
+                    React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
+                        React.createElement('span',{style:{fontSize:'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label),
                     ),
-                    // Content area (scrollable when expanded)
-                    React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
+                    // Content area
+                    React.createElement('div',{},
                     // Reference Images + Style upload area (StoryboardNode style)
                     React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'12px',marginBottom:'16px'}},
                         React.createElement('div',{
@@ -1464,7 +1416,6 @@
             const cfg = NODE_TYPES_CONFIG[data.nodeType] || NODE_TYPES_CONFIG.storyboard_gen;
             const st = data.status || 'ready';
             const [expanded, setExpanded] = useState(false);
-            const [panelExpanded, setPanelExpanded] = useState(false);
             const [prompt, setPrompt] = useState(data.prompt || data.description || '');
             const [genMode, setGenMode] = useState(data.genMode || 'text'); // text, firstLast, reference
             const [ratio, setRatio] = useState(data.ratio || '16:9');
@@ -1674,14 +1625,7 @@
 
                 // === EXPANDED EDITING PANEL ===
                 expanded ? React.createElement('div', {
-                    style: panelExpanded ? {
-                        position:'fixed', inset:'0', zIndex:9999,
-                        background:'rgba(0,0,0,0.6)',
-                        backdropFilter:'blur(4px)',
-                        display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-                        padding:'20px',
-                        animation:'fadeIn 0.2s ease-out',
-                    } : {
+                    style: {
                         position:'absolute',
                         top:'calc(100% + 12px)',
                         left:'0',
@@ -1694,33 +1638,14 @@
                         zIndex:100,
                         animation:'menuIn 0.2s ease-out',
                     },
-                    onClick: panelExpanded ? (e => { setExpanded(false); }) : (e => e.stopPropagation()),
+                    onClick:e=>e.stopPropagation(),
                 },
-                    // Header bar — zoomed vs normal
-                    panelExpanded ? React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid rgba(255,255,255,0.06)',flexShrink:0,background:'#1a1b1e',borderRadius:'16px 16px 0 0',maxWidth:'90vw',width:'900px',border:'1px solid rgba(255,255,255,0.08)',borderBottom:'none',boxShadow:'0 -10px 40px rgba(0,0,0,0.3)'},onClick:e=>e.stopPropagation()},
-                        React.createElement('span',{style:{fontSize:'14px',fontWeight:600,color:'#e4e5e7'}},cfg.label),
-                        React.createElement('button',{
-                            style:{padding:'6px',borderRadius:'6px',border:'none',background:'transparent',color:'#909296',fontSize:'16px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'28px',height:'28px',transition:'all 0.15s'},
-                            onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
-                            onMouseLeave:e=>e.currentTarget.style.background='transparent',
-                            onClick:e=>{e.stopPropagation(); setExpanded(false);},
-                            title:'恢复',
-                        },'⛶'),
-                    ) : React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
+                    // Header bar
+                    React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
                         React.createElement('span',{style:{fontSize:'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label),
-                        React.createElement('button',{
-                            style:{padding:'6px',borderRadius:'6px',border:'none',background:'transparent',color:'#909296',fontSize:'16px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'28px',height:'28px',transition:'all 0.15s'},
-                            onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
-                            onMouseLeave:e=>e.currentTarget.style.background='transparent',
-                            onClick:e=>{e.stopPropagation(); setPanelExpanded(true);},
-                            title:'放大',
-                        },'↗'),
                     ),
-                    // When zoomed: wrap header+content in centered modal container
-                    // The header above is inside this modal when panelExpanded
-                    // We use a wrapper approach: content is always wrapped in a div,
-                    // and when zoomed that div gets extra modal styling via the backdrop centering
-                    React.createElement('div',{style:panelExpanded?{flex:'0 1 auto',overflow:'auto',padding:'20px',background:'#1a1b1e',borderRadius:'0 0 16px 16px',maxWidth:'90vw',width:'900px',maxHeight:'70vh',border:'1px solid rgba(255,255,255,0.08)',borderTop:'none',boxShadow:'0 20px 60px rgba(0,0,0,0.5)'}:{},onClick:panelExpanded?(e=>e.stopPropagation()):undefined},
+                    // Content area
+                    React.createElement('div',{},
                     // Style image upload area
                     React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'12px',marginBottom:'16px'}},
                         React.createElement('div',{
