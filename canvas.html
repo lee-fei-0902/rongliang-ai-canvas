@@ -311,7 +311,8 @@
                             onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
                             onMouseLeave:e=>e.currentTarget.style.background='transparent',
                             onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                        },panelExpanded?'✕':'⛶'),
+                            title:panelExpanded?'恢复':'放大',
+                        },panelExpanded?'⛶':'↗'),
                     ),
                     // Content area (scrollable when expanded)
                     React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
@@ -824,7 +825,8 @@
                             onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
                             onMouseLeave:e=>e.currentTarget.style.background='transparent',
                             onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                        },panelExpanded?'✕':'⛶'),
+                            title:panelExpanded?'恢复':'放大',
+                        },panelExpanded?'⛶':'↗'),
                     ),
                     // Content area (scrollable when expanded)
                     React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
@@ -1290,7 +1292,8 @@
                             onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
                             onMouseLeave:e=>e.currentTarget.style.background='transparent',
                             onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                        },panelExpanded?'✕':'⛶'),
+                            title:panelExpanded?'恢复':'放大',
+                        },panelExpanded?'⛶':'↗'),
                     ),
                     // Content area (scrollable when expanded)
                     React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
@@ -1702,7 +1705,8 @@
                             onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
                             onMouseLeave:e=>e.currentTarget.style.background='transparent',
                             onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                        },panelExpanded?'✕':'⛶'),
+                            title:panelExpanded?'恢复':'放大',
+                        },panelExpanded?'⛶':'↗'),
                     ),
                     // Content area (scrollable when expanded)
                     React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
