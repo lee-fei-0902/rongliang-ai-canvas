@@ -127,8 +127,8 @@
             prop_gen:       { label:'道具生成', icon:'💎', color:'#da77f2', bg:'rgba(218,119,242,0.10)', input:['script','scene'], output:['prop'] },
             storyboard_gen: { label:'分镜视频', icon:'🎞️', color:'#ff8787', bg:'rgba(255,135,135,0.10)', input:['script','character','scene','prop'], output:['storyboard'] },
             video_gen:      { label:'视频生成', icon:'🎥', color:'#f06595', bg:'rgba(240,101,149,0.10)', input:['storyboard','image'], output:['video'] },
-            image_gen:      { label:'图片生成', icon:'🖼️', color:'#20c997', bg:'rgba(32,201,151,0.10)',  input:['script','storyboard'], output:['image'] },
             video_compose:  { label:'视频合成', icon:'✂️', color:'#e0e0e0', bg:'rgba(224,224,224,0.10)', input:['storyboard','video'], output:['video'] },
+            image_gen:      { label:'图片生成', icon:'🖼️', color:'#20c997', bg:'rgba(32,201,151,0.10)',  input:['script','storyboard'], output:['image'] },
         };
 
         const EDGE_COLORS = {
@@ -3022,6 +3022,67 @@
                             React.createElement(Background,{color:'rgba(255,255,255,0.03)',gap:20,size:1}),
                             React.createElement(Controls,{showInteractive:false,style:{bottom:'14px',left:'14px'}}),
                             React.createElement(MiniMap,{nodeColor:n=>{const c=NODE_TYPES_CONFIG[n.data?.nodeType];return c?c.color:'#5c5f66';},style:{bottom:'14px',right:'14px',width:'170px',height:'110px'},maskColor:'rgba(0,0,0,0.7)'}),
+                            // === EMPTY CANVAS QUICK ADD PANEL ===
+                            nodes.length===0 ? React.createElement('div',{
+                                style:{
+                                    position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)',
+                                    zIndex:50, pointerEvents:'none',
+                                },
+                            },
+                                React.createElement('div',{
+                                    style:{
+                                        background:'rgba(30,31,35,0.85)', backdropFilter:'blur(12px)',
+                                        borderRadius:'20px', border:'1px solid rgba(255,255,255,0.06)',
+                                        boxShadow:'0 24px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03)',
+                                        padding:'28px 32px 20px', display:'flex', flexDirection:'column',
+                                        alignItems:'center', gap:'16px', pointerEvents:'auto',
+                                        animation:'menuIn 0.3s ease-out',
+                                    },
+                                },
+                                    // Node type buttons row
+                                    React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'10px',flexWrap:'wrap',justifyContent:'center'}},
+                                        [
+                                            {type:'character_gen', label:'角色', icon:'👤'},
+                                            {type:'scene_gen', label:'场景', icon:'🏞️'},
+                                            {type:'storyboard_gen', label:'分镜视频', icon:'🎞️'},
+                                            {type:'image_gen', label:'图片', icon:'🖼️'},
+                                            {type:'text_node', label:'文本', icon:'📜'},
+                                        ].map(item => React.createElement('button',{
+                                            key:item.type,
+                                            style:{
+                                                display:'flex', alignItems:'center', gap:'6px',
+                                                padding:'8px 16px', borderRadius:'10px',
+                                                border:'1px solid rgba(255,255,255,0.08)',
+                                                background:'rgba(255,255,255,0.04)',
+                                                color:'#c1c2c5', fontSize:'13px', cursor:'pointer',
+                                                transition:'all 0.15s', whiteSpace:'nowrap',
+                                            },
+                                            onMouseEnter:e=>{
+                                                e.currentTarget.style.background='rgba(255,255,255,0.08)';
+                                                e.currentTarget.style.borderColor='rgba(255,255,255,0.15)';
+                                                e.currentTarget.style.transform='translateY(-1px)';
+                                            },
+                                            onMouseLeave:e=>{
+                                                e.currentTarget.style.background='rgba(255,255,255,0.04)';
+                                                e.currentTarget.style.borderColor='rgba(255,255,255,0.08)';
+                                                e.currentTarget.style.transform='translateY(0)';
+                                            },
+                                            onClick:()=>{
+                                                const cp = rfi.screenToFlowPosition({x:window.innerWidth/2,y:window.innerHeight/2});
+                                                addNode(item.type, {x:cp.x-110, y:cp.y-60});
+                                            },
+                                        },
+                                            React.createElement('span',{style:{fontSize:'16px'}},item.icon),
+                                            React.createElement('span',null,item.label),
+                                        )),
+                                    ),
+                                    // Hint text
+                                    React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'6px',color:'#5c5f66',fontSize:'12px',marginTop:'4px'}},
+                                        React.createElement('span',null,'⛳'),
+                                        React.createElement('span',null,'点击快速新建'),
+                                    ),
+                                ),
+                            ) : null,
                         )
                     ),
                 ),
