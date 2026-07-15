@@ -1676,11 +1676,10 @@
                 expanded ? React.createElement('div', {
                     style: panelExpanded ? {
                         position:'fixed', inset:'0', zIndex:9999,
-                        background:'#141519',
-                        borderRadius:'0', border:'none',
-                        boxShadow:'none',
-                        padding:'0', overflow:'hidden',
-                        display:'flex', flexDirection:'column',
+                        background:'rgba(0,0,0,0.6)',
+                        backdropFilter:'blur(4px)',
+                        display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
+                        padding:'20px',
                         animation:'fadeIn 0.2s ease-out',
                     } : {
                         position:'absolute',
@@ -1695,21 +1694,33 @@
                         zIndex:100,
                         animation:'menuIn 0.2s ease-out',
                     },
-                    onClick:e=>e.stopPropagation(),
+                    onClick: panelExpanded ? (e => { setExpanded(false); }) : (e => e.stopPropagation()),
                 },
-                    // Header bar
-                    React.createElement('div',{style:panelExpanded?{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid rgba(255,255,255,0.06)',flexShrink:0}:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
-                        React.createElement('span',{style:{fontSize:panelExpanded?'14px':'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label+(panelExpanded?'':'')),
+                    // Header bar — zoomed vs normal
+                    panelExpanded ? React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid rgba(255,255,255,0.06)',flexShrink:0,background:'#1a1b1e',borderRadius:'16px 16px 0 0',maxWidth:'90vw',width:'900px',border:'1px solid rgba(255,255,255,0.08)',borderBottom:'none',boxShadow:'0 -10px 40px rgba(0,0,0,0.3)'},onClick:e=>e.stopPropagation()},
+                        React.createElement('span',{style:{fontSize:'14px',fontWeight:600,color:'#e4e5e7'}},cfg.label),
                         React.createElement('button',{
                             style:{padding:'6px',borderRadius:'6px',border:'none',background:'transparent',color:'#909296',fontSize:'16px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'28px',height:'28px',transition:'all 0.15s'},
                             onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
                             onMouseLeave:e=>e.currentTarget.style.background='transparent',
-                            onClick:e=>{e.stopPropagation(); setPanelExpanded(prev=>!prev);},
-                            title:panelExpanded?'恢复':'放大',
-                        },panelExpanded?'⛶':'↗'),
+                            onClick:e=>{e.stopPropagation(); setExpanded(false);},
+                            title:'恢复',
+                        },'⛶'),
+                    ) : React.createElement('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}},
+                        React.createElement('span',{style:{fontSize:'12px',fontWeight:600,color:'#e4e5e7'}},cfg.label),
+                        React.createElement('button',{
+                            style:{padding:'6px',borderRadius:'6px',border:'none',background:'transparent',color:'#909296',fontSize:'16px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',width:'28px',height:'28px',transition:'all 0.15s'},
+                            onMouseEnter:e=>e.currentTarget.style.background='rgba(255,255,255,0.06)',
+                            onMouseLeave:e=>e.currentTarget.style.background='transparent',
+                            onClick:e=>{e.stopPropagation(); setPanelExpanded(true);},
+                            title:'放大',
+                        },'↗'),
                     ),
-                    // Content area (scrollable when expanded)
-                    React.createElement('div',{style:panelExpanded?{flex:1,overflow:'auto',padding:'20px'}:{}},
+                    // When zoomed: wrap header+content in centered modal container
+                    // The header above is inside this modal when panelExpanded
+                    // We use a wrapper approach: content is always wrapped in a div,
+                    // and when zoomed that div gets extra modal styling via the backdrop centering
+                    React.createElement('div',{style:panelExpanded?{flex:'0 1 auto',overflow:'auto',padding:'20px',background:'#1a1b1e',borderRadius:'0 0 16px 16px',maxWidth:'90vw',width:'900px',maxHeight:'70vh',border:'1px solid rgba(255,255,255,0.08)',borderTop:'none',boxShadow:'0 20px 60px rgba(0,0,0,0.5)'}:{},onClick:panelExpanded?(e=>e.stopPropagation()):undefined},
                     // Style image upload area
                     React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'12px',marginBottom:'16px'}},
                         React.createElement('div',{
